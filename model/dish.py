@@ -1,4 +1,3 @@
-from typing import Optional, List
 from model.ingredient import Ingredient
 
 

@@ -1,4 +1,3 @@
-from typing import List
 from model.menu import Menu
 
 
