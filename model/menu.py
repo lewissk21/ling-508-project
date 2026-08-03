@@ -1,3 +1,4 @@
+from typing import List
 from model.enums import MenuType
 from model.dish import Dish
 
