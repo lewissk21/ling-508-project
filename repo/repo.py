@@ -1,63 +1,12 @@
-from typing import List, Optional, Sequence
-
-import mysql.connector
-
-from model import *
-
-class MenuRepository:
-
-    def __init__(self):
-        super().__init__()
-        config = {
-            'user': 'root',
-            'password': 'root',
-            'host': 'localhost',
-            'port': '32000',
-            'database': 'menus'
-        }
-        self.connection = mysql.connector.connect(**config)
-        self.cursor = self.connection.cursor()
-
-    def __del__(self):
-        self.cursor.close()
-        self.connection.close()
-
-    def _query(self, sql: str, params: Sequence) -> list[dict]:
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(sql, params)
-        return cursor.fetchall()
+import abc
 
 
-    def get_all(self) -> List[Restaurant]:
-        sql = """
-            SELECT id, name, address, base_url
-            FROM restaurant
-            ORDER BY name
-        """
-        return self._create_restaurant(self._query(sql, []))
+class Repository(metaclass=abc.ABCMeta):
 
-    def find_by_dish(self, dish_name: str) -> List[Restaurant]:
-        sql = """
-            SELECT DISTINCT r.id, r.name, r.address, r.base_url
-            FROM restaurant r
-            JOIN menu m ON m.restaurant_id = r.id
-            JOIN menu_dish md ON md.menu_id = m.id
-            JOIN dish d ON d.id = md.dish_id
-            WHERE d.name LIKE %s
-            ORDER BY r.name
-        """
-        return self._create_restaurant(self._query(sql, (f"%{dish_name}%",)))
-
-    def _create_restaurant(self, rows: Sequence[dict]) -> List[Restaurant]:
-        if not rows:
-            return []
-
-        return [
-            Restaurant(
-                name=row["name"],
-                address=row["address"],
-                website=row["base_url"],
-                menus=[],
-            )
-            for row in rows
-        ]
+    @abc.abstractmethod
+    def get_all_restaurants(self) -> list:
+        raise NotImplementedError
+    
+    @abc.abstractmethod
+    def find_restaurants_by_dish(self, dish_name: str) -> list:
+        raise NotImplementedError
