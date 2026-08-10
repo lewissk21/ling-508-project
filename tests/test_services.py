@@ -9,4 +9,4 @@ def test_get_all_restaurants():
 
 def test_find_restaurants_by_dish():
     restaurants = services.find_restaurants_by_dish('Grilled Cheese')
-    assert len(restaurants) > 0
+    assert "Roxy's Grilled Cheese" in [r.name for r in restaurants]
