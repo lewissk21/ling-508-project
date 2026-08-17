@@ -12,4 +12,4 @@ RUN uv sync --locked
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-CMD ["python", "main.py"]
+CMD ["python", "server.py"]

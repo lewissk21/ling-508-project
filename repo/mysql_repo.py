@@ -12,16 +12,19 @@ class MenuRepository(Repository):
         config = {
             'user': 'root',
             'password': 'root',
-            'host': 'localhost',
-            'port': '32000',
+            'host': 'db',
+            'port': '3306',
             'database': 'menus'
         }
         self.connection = mysql.connector.connect(**config)
         self.cursor = self.connection.cursor()
 
     def __del__(self):
-        self.cursor.close()
-        self.connection.close()
+        try:
+            self.cursor.close()
+            self.connection.close()
+        except Exception:
+            pass
 
     def _query(self, sql: str, params: Sequence) -> list[dict]:
         cursor = self.connection.cursor(dictionary=True)
