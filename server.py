@@ -18,14 +18,17 @@ def _serialize(restaurant) -> dict:
 
 
 @app.route('/')
-def doc():
+def main() -> str:
+    app.logger.info("main - Got request")
+    with open("web/main.html", "r") as f:
+        return f.read()
+
+@app.route('/docs')
+def doc() -> str:
     app.logger.info("doc - Got request")
-    return jsonify({
-        "endpoints": [
-            "GET /get-all-restaurants",
-            "GET /find-restaurants-by-dish/<dish_name>",
-        ]
-    })
+    with open("app/doc.html", "r") as f:
+        return f.read()
+        
 
 # route for finding restaurants by dish
 @app.route('/find-restaurants-by-dish/<dish_name>', methods=['GET'])

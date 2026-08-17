@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Menu API</title>
+</head>
+<body>
+<h1>Welcome to the Restaurant Menu API</h1>
+<p>Search restaurant menus: given a dish, find the restaurants that serve it.</p>
+
+<h2>Methods</h2>
+
+<h3>Get all restaurants</h3>
+<div>
+<p>Endpoint: http://localhost:5000/get-all-restaurants</p>
+<p>Request type: GET</p>
+<p>Request body: none</p>
+<p>Response: JSON array of restaurants, ordered by name, e.g. </p>
+<pre>
+  [
+  {
+    "address": "292 Massachusetts Ave, Cambridge, MA 02139",
+    "name": "Roxy's Grilled Cheese",
+    "website": "https://roxysgrilledcheese.com"
+  }
+]
+</pre>
+</div>
+
+<h3>Find restaurants by dish</h3>
+<div>
+<p>Endpoint: http://localhost:5000/find-restaurants-by-dish/&lt;dish_name&gt;</p>
+<p>Request type: GET</p>
+<p>Request parameters: "dish_name", the name of a desired dish</p>
+<p>Response: JSON array of the restaurants that serve a matching dish, e.g. </p>
+<pre>
+[
+  {
+    "address": "292 Massachusetts Ave, Cambridge, MA 02139",
+    "name": "Roxy's Grilled Cheese",
+    "website": "https://roxysgrilledcheese.com"
+  }
+]
+</pre>
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Menu Search</title>
+</head>
+<body>
+
+<h1>Restaurant Menu Search</h1>
+
+<h2>Find restaurants by dish</h2>
+
+<form id="form1">
+    <div class="input-group">
+        <label for="dish">Dish: </label>
+        <input id="dish" name="dish" type="text"/>
+    </div>
+    <button type="submit" value="search">Submit</button>
+</form>
+
+<h2>Response: </h2>
+<pre id="response"></pre>
+
+<h2>Get all restaurants</h2>
+
+<form id="form2">
+    <button type="submit" value="all">Submit</button>
+</form>
+
+<h2>Response: </h2>
+<pre id="restaurants"></pre>
+
+
+</body>
+
+<script>
+async function handleSubmit1(event) {
+    event.preventDefault();
+
+    const data = new FormData(event.target);
+    const value = Object.fromEntries(data.entries());
+    value.dish = data.get("dish");
+    console.log({value});
+
+    const response = await fetch(
+        'http://localhost:5000/find-restaurants-by-dish/' + encodeURIComponent(value.dish),
+        {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+    const myJson = await response.json();
+    console.log(myJson);
+    document.getElementById('response').textContent = JSON.stringify(myJson, undefined, 2);
+}
+const form1 = document.getElementById("form1");
+form1.addEventListener("submit", async (e) => handleSubmit1(e), false);
+
+async function handleSubmit2(event) {
+    event.preventDefault();
+
+    const response = await fetch('http://localhost:5000/get-all-restaurants', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+    const myJson = await response.json();
+    console.log(myJson);
+    document.getElementById('restaurants').textContent = JSON.stringify(myJson, undefined, 2);
+}
+const form2 = document.getElementById("form2");
+form2.addEventListener("submit", async (e) => handleSubmit2(e), false);
+</script>
+
+</html>
